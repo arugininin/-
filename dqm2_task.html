@@ -1555,6 +1555,11 @@ function executeAllyAction(actor){
   setBattleMsg(msg);
   updateBattleField();
   renderParty();
+  // 特技で全敵を倒した場合の勝利チェック
+  if(B.enemies.every(e=>e.hp<=0)){
+    setTimeout(()=>battleWin(), 900);
+    return;
+  }
   setTimeout(()=>processNextAction(), 900);
 }
 
@@ -3436,6 +3441,11 @@ function executeAllyAction(actor){
   setBattleMsg(msg);
   updateBattleField();
   renderParty();
+  // 特技で全敵を倒した場合の勝利チェック
+  if(B.enemies.every(e=>e.hp<=0)){
+    setTimeout(()=>battleWin(), 900);
+    return;
+  }
   setTimeout(()=>processNextAction(), 900);
 }
 
