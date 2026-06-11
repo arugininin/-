@@ -791,7 +791,7 @@ function renderParty(){
     const needed=m.lv*30;
     const expPct=Math.min(100,exp/needed*100);
     list.innerHTML+=`<div class="party-card">
-      <div class="party-name">${monsterEmoji(m)} ${m.jp}${m.plus>0?` <span style="color:var(--gold);font-size:.75rem">+${m.plus}</span>`:""} Lv${m.lv}</div>
+      <div class="party-name">${monsterEmoji(m)} ${monName(m)}${m.plus>0?` <span style="color:var(--gold);font-size:.75rem">+${m.plus}</span>`:""} Lv${m.lv}</div>
       <div class="hp-bar"><div style="height:100%;border-radius:3px;transition:width .3s;width:${pct}%;background:${col}"></div></div>
       <div class="party-nums">HP ${m.hp}/${m.maxHp} &nbsp; MP ${m.mp}/${m.maxMp}</div>
       <div style="height:3px;background:#1a2a3a;border-radius:3px;overflow:hidden;margin-top:3px;">
@@ -1058,7 +1058,7 @@ function updateBattleField(){
     const isActingA=(B.actingWho==='ally'&&B.actingIdx===allyI);
     const acStyle=isActingA?'border-color:var(--gold);background:rgba(255,200,0,.08);':'';
     ac.innerHTML+=`<div class="fighter-card" style="${acStyle}">
-      <div class="fighter-name">${isActingA?'▶ ':''}${monsterEmoji(m)} ${m.jp} Lv${m.lv} ${getStatusIcons('ally',allyI)}</div>
+      <div class="fighter-name">${isActingA?'▶ ':''}${monsterEmoji(m)} ${monName(m)} Lv${m.lv} ${getStatusIcons('ally',allyI)}</div>
       <div class="fighter-hp"><div style="height:100%;border-radius:3px;transition:width .3s;width:${pct}%;background:${col}"></div></div>
       <div class="fighter-nums">HP ${m.hp}/${m.maxHp} &nbsp; MP ${m.mp}/${m.maxMp}</div>
     </div>`;
@@ -2160,6 +2160,23 @@ function doGenderChange(){
   showToast(`${m.jp}が${newG}になった！`);
 }
 
+
+
+// ニックネーム変更
+function renameMonster(src, idx){
+  const m = src==='party' ? S.party[idx] : (S.ranch||[])[idx];
+  if(!m) return;
+  const current = m.nickname || '';
+  const input = prompt(`${m.jp} のニックネームを入力（空白で削除）`, current);
+  if(input === null) return; // キャンセル
+  m.nickname = input.trim() || null;
+  autoSave('rename');
+  renderParty();
+  renderRanchScreen();
+  addLog(`✏️ ${m.jp} のニックネームを「${m.nickname||'（なし）'}」にした`, 'log-item');
+}
+// モンスターの表示名（ニックネーム優先）
+function monName(m){ return m.nickname || m.jp; }
 function renderArena(){
   const prog=S.progress||0;
   const list=document.getElementById('arena-list');
@@ -2379,7 +2396,7 @@ function renderPartyDetail(){
     const col=pct>50?'var(--green)':pct>20?'var(--gold)':'var(--accent)';
     const gLabel=m.gender==='male'?'♂':'♀';
     detail.innerHTML+=`<div class="party-detail-card">
-      <div class="pdc-name">${monsterEmoji(m)} ${m.jp} ${gLabel} Lv${m.lv} / ${m.family}</div>
+      <div class="pdc-name">${monsterEmoji(m)} ${monName(m)} ${m.nickname?'<span style="font-size:.7rem;color:var(--muted);">('+ m.jp +')</span>':''} ${gLabel} Lv${m.lv} / ${m.family} <button onclick="renameMonster('party',${i})" style="font-family:inherit;font-size:.65rem;padding:2px 6px;background:var(--dim);border:1px solid var(--border);border-radius:4px;color:var(--text);cursor:pointer;margin-left:4px;">✏️</button></div>
       <div style="height:5px;background:#1a2a3a;border-radius:3px;overflow:hidden;margin:4px 0;">
         <div style="height:100%;width:${pct}%;background:${col};border-radius:3px;"></div>
       </div>
@@ -2552,13 +2569,13 @@ function renderRanchScreen(){
     d.className = 'ranch-card';
     d.innerHTML = `<span style="font-size:1.2rem">${monsterEmoji(m)}</span>
       <div class="ranch-card-info">
-        <div class="ranch-card-name">${m.jp} ${m.gender==='male'?'♂':'♀'} Lv${m.lv}</div>
+        <div class="ranch-card-name">${monName(m)} <span style="font-size:.7rem;color:var(--muted);">${m.nickname?'('+m.jp+')':''}</span> ${m.gender==='male'?'♂':'♀'} Lv${m.lv}</div>
         <div class="ranch-card-stats">HP${m.maxHp} ATK${m.atk} DEF${m.def} | ${m.family}</div>
         <div class="ranch-card-stats">特技: ${(m.learnedSkills||[]).join('・')||'なし'}</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:3px;">
         <button class="ranch-btn" onclick="ranchToParty(${i})">パーティへ</button>
-        <button class="ranch-btn" style="color:var(--accent)" onclick="releaseMonster(${i})">逃がす</button>
+        <button onclick="renameMonster('ranch',${i})" style="font-family:inherit;font-size:.68rem;padding:3px 8px;background:var(--dim);border:1px solid var(--border);border-radius:4px;color:var(--text);cursor:pointer;margin-right:4px;">✏️ 名前</button><button class="ranch-btn" style="color:var(--accent)" onclick="releaseMonster(${i})">逃がす</button>
       </div>`;
     list.appendChild(d);
   });
