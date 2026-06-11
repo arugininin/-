@@ -2417,7 +2417,7 @@ function renderPartyDetail(){
   const detail=document.getElementById('party-detail');
   if(!detail) return;
   detail.innerHTML='';
-  S.party.forEach(m=>{
+  S.party.forEach((m,i)=>{
     const pct=Math.max(0,m.hp/m.maxHp*100);
     const col=pct>50?'var(--green)':pct>20?'var(--gold)':'var(--accent)';
     const gLabel=m.gender==='male'?'♂':'♀';
@@ -3152,6 +3152,8 @@ function executeAllyAction(actor){
     }
     target.hp = Math.max(0, target.hp-dmg);
     if(target.hp<=0) advanceEnemy();
+    // 眠り解除（実機準拠: ダメージで起きる）
+    wakeOnDamage(target,'enemy',B.enemies.indexOf(target));
   } else if(action.type==='skill'){
     const sk = BDATA.skills[action.skillName];
     if(!sk){ processNextAction(); return; }
@@ -3236,7 +3238,11 @@ function executeEnemyAction(actor){
       msg=msg.replace(`に ${dmg*3}`,`に ${dmg}`)+`（防御中）`;
     }
   }
-  if(dmg>0) targetAlly.hp=Math.max(0,targetAlly.hp-dmg);
+  if(dmg>0){
+    targetAlly.hp=Math.max(0,targetAlly.hp-dmg);
+    // 眠り解除（実機準拠: ダメージで起きる）
+    wakeOnDamage(targetAlly,'ally',S.party.indexOf(targetAlly));
+  }
 
   setBattleMsg(msg);
   updateBattleField();
@@ -4097,7 +4103,7 @@ function applySkillEffect(skillName, who, actorIdx, targetEnemyIdx){
     if(t){
       const isMetal=t.family==='スライム系'&&['メタルスライム','はぐれメタル','メタルキング','グランスライム'].includes(t.jp);
       const dmg=isMetal?Math.floor(Math.random()*3)+2:Math.max(1,Math.floor(actor.atk/2)-Math.floor((t.def||0)/4)+Math.floor(Math.random()*4-2));
-      t.hp=Math.max(0,t.hp-dmg); if(isAlly&&t.hp<=0) advanceEnemy();
+      t.hp=Math.max(0,t.hp-dmg); if(isAlly&&t.hp<=0) advanceEnemy(); wakeOnDamage(t, isAlly?'enemy':'ally', isAlly?B.enemies.indexOf(t):S.party.indexOf(t));
       return `${actor.jp} の ${skillName}！ ${t.jp} に ${dmg} ダメージ！`;
     }
     return `${actor.jp} の ${skillName}！`;
@@ -4575,7 +4581,7 @@ function applyStatusStart(who, idx){
   // 毒: 毎ターンHP1/8、最大8ターン
   if(st.poison){
     const dmg = Math.max(1, Math.floor(target.maxHp/8));
-    target.hp = Math.max(1, target.hp - dmg);
+    target.hp = Math.max(0, target.hp - dmg); // 実機: 毒で戦闘不能あり
     st.poisonTurns = (st.poisonTurns||8) - 1;
     if(st.poisonTurns<=0) st.poison=false;
     msgs.push(`${target.jp} は毒で ${dmg} ダメージ！`);
@@ -4584,7 +4590,7 @@ function applyStatusStart(who, idx){
   // 呪い: 毎ターンHP1/16削る
   if(st.curse>0){
     const dmg = Math.max(1, Math.floor(target.maxHp/16));
-    target.hp = Math.max(1, target.hp - dmg);
+    target.hp = Math.max(0, target.hp - dmg); // 実機: 呪いで戦闘不能あり
     st.curse--;
     msgs.push(`${target.jp} は呪いで ${dmg} ダメージ！`);
   }
@@ -4596,15 +4602,11 @@ function applyStatusStart(who, idx){
     canAct = false;
   }
 
-  // マヒ: 50%で行動不能、ターン数経過で解除
+  // マヒ: 確定で行動不能（実機準拠）、ターン数経過で解除
   if(st.paralysis>0){
     st.paralysis--;
-    if(Math.random()<0.5){
-      msgs.push(`${target.jp} はマヒして動けない！`);
-      canAct = false;
-    } else {
-      msgs.push(`${target.jp} のマヒが少し回復した…`);
-    }
+    msgs.push(`${target.jp} はマヒして動けない！`);
+    canAct = false;
   }
 
   // スタン: 1ターン行動不能（確定）
@@ -4651,6 +4653,14 @@ function inflictStatus(target, who, idx, statusType, turns){
   if(!B[statKey]) B[statKey]={};
   if(!B[statKey][idx]) B[statKey][idx]={};
   B[statKey][idx][statusType] = turns||true;
+}
+
+// ダメージを受けたら眠りを解除（実機準拠）
+function wakeOnDamage(target, who, idx){
+  const statKey = who==='ally' ? 'statusEffects' : 'enemyStatus';
+  if(B[statKey] && B[statKey][idx] && B[statKey][idx].sleep){
+    B[statKey][idx].sleep = 0;
+  }
 }
 
 // ===== 作戦システム =====
