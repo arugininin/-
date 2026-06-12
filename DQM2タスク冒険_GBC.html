@@ -545,13 +545,15 @@ body[data-area="5"] .tile-player{box-shadow:0 0 10px rgba(248,232,88,.9);}
         <div class="field-actions" style="margin-top:6px;">
           <button class="faction-btn" onclick="openFieldMenu('item')">🎒 道具</button>
           <button class="faction-btn" onclick="openFieldMenu('skill')">✨ 特技</button>
+          <button class="faction-btn" id="exit-fushigi-btn" style="display:none;" onclick="exitFushigiWorld()">🗝️ マルタへ戻る</button>
         </div>
       </div>
       <div style="font-size:.73rem;color:var(--muted);padding-top:4px;line-height:1.8;">
         <div>👣 1歩ごとに必ず戦闘</div>
         <div>💎 アイテムマス→入手</div>
         <div>🏘️ 町→回復</div>
-        <div>🛒 肉屋→ほねつきにく</div>
+        <div>🛒 肉屋→骨付き肉＆購入</div>
+        <div>🍖 肉マス→肉をランダム入手</div>
         <div>💀 中ボス→倒すと先へ</div>
         <div>👑 エリアボス→格闘場解放</div>
         <div>🏚️ ダンジョン→探索できる</div>
@@ -920,7 +922,7 @@ function buildMap(){
   const area=AREAS[S.areaIdx];
   S.itemMap={};
   for(let y=0;y<area.rows;y++) for(let x=0;x<area.cols;x++)
-    if(area.map[y][x]===2) S.itemMap[`${x},${y}`]=true;
+    if(area.map[y][x]===2||area.map[y][x]===6||area.map[y][x]===11) S.itemMap[`${x},${y}`]=true;
   renderMap();
 }
 function renderMap(){
@@ -940,11 +942,11 @@ function renderMap(){
     if(isP){div.classList.add('tile-player');div.textContent='🧑';}
     else if(cell===0){div.classList.add('tile-wall');}
     else{
-      const map={1:'tile-floor',2:'tile-item',3:'tile-town',4:'tile-boss',5:'tile-boss',6:'tile-shop',7:'tile-boss',8:'tile-boss',9:'tile-town',10:'tile-town'};
+      const map={1:'tile-floor',2:'tile-item',3:'tile-town',4:'tile-boss',5:'tile-boss',6:'tile-shop',7:'tile-boss',8:'tile-boss',9:'tile-town',10:'tile-town',11:'tile-item'};
       div.classList.add(map[cell]||'tile-floor');
-      const icons={2:'💎',3:'🏘️',4:'💀',5:'👑',6:'🛒',7:'💀',8:'💀',9:'🏚️',10:'🧑'};
+      const icons={2:'💎',3:'🏘️',4:'💀',5:'👑',6:'🛒',7:'💀',8:'💀',9:'🏚️',10:'🧑',11:'🍖'};
       const mbIdx=S.midBossIdx||0;
-      if(cell===2&&S.itemMap[key]===false){div.classList.add('tile-cleared');div.textContent='·';}
+      if((cell===2||cell===11)&&S.itemMap[key]===false){div.classList.add('tile-cleared');div.textContent='·';}
       else if(cell===4&&mbIdx>=1){div.classList.add('tile-cleared');div.textContent='✔';}
       else if(cell===7&&mbIdx>=2){div.classList.add('tile-cleared');div.textContent='✔';}
       else if(cell===8&&S.midBossCleared){div.classList.add('tile-cleared');div.textContent='✔';}
@@ -1094,10 +1096,31 @@ function triggerTile(){
     }
     updateDpad(); return;
   }
-  // 🛒 肉屋マス
+  // 🛒 肉屋マス（初回はほねつきにくをサービス＆購入も可能）
   if(cell===6){
+    if(S.itemMap[key]!==false){
+      S.itemMap[key]=false;
+      addToInventory({name:'ほねつきにく',emoji:'🍖',type:'scout',intimacy:100,price:200,effect:'親密度+100'});
+      addLog('🍖 肉屋のサービス: ほねつきにく を入手！','log-item');
+      showToast('🍖 ほねつきにく を貰った！');
+      renderMap();
+    }
     openMeatShop();
     return;
+  }
+  // 🍖 肉マス（ランダムで肉を入手・エリア再訪で復活）
+  if(cell===11){
+    if(S.itemMap[key]===false) return;
+    S.itemMap[key]=false;
+    const r=Math.random();
+    const meat = r<0.40 ? {name:'まもののエサ',emoji:'🦴',type:'scout',intimacy:15, price:0,  effect:'親密度+15'}
+              : r<0.70 ? {name:'くんせいにく',emoji:'🥩',type:'scout',intimacy:30, price:350,effect:'親密度+30'}
+              : r<0.90 ? {name:'ほねつきにく',emoji:'🍖',type:'scout',intimacy:100,price:200,effect:'親密度+100'}
+              :          {name:'しもふりにく',emoji:'🍗',type:'scout',intimacy:231,price:500,effect:'親密度+231'};
+    addToInventory({...meat});
+    showEvent('🍖','肉を見つけた！',`${meat.emoji} ${meat.name} を手に入れた！\n${meat.effect}（スカウトに使える）`,false);
+    addLog(`🍖 肉マス: ${meat.name} を入手！`,'log-item');
+    renderMap(); return;
   }
 
   // 中ボスリスト取得
@@ -2903,6 +2926,13 @@ function loadGame(){
     document.getElementById('hdr-area').textContent = area.id;
     buildMap();
     updateDpad();
+    // ダンジョン/異世界の中のセーブなら脱出ボタンを復元
+    const exitBtn = document.getElementById('exit-fushigi-btn');
+    if(exitBtn){
+      const inSub = !!S._currentDungeon || !!S.fushigiWorld;
+      exitBtn.style.display = inSub ? 'block' : 'none';
+      exitBtn.textContent = S._currentDungeon ? '🏚️ ダンジョンから出る' : '🗝️ マルタへ戻る';
+    }
     renderParty();
     renderRanchScreen();
     renderTasks();
@@ -3838,7 +3868,7 @@ function openFieldMenu(type){
         </div>`;
       list.appendChild(d);
     });
-    document.getElementById('field-menu').classList.add('open');
+    document.getElementById('field-overlay').classList.add('open');
     return;
   }
   // 特技メニュー（既存）
@@ -3858,7 +3888,7 @@ function openFieldMenu(type){
       d.onclick=()=>{ closeFieldMenu(); };
       list.appendChild(d);
     });
-    document.getElementById('field-menu').classList.add('open');
+    document.getElementById('field-overlay').classList.add('open');
   }
 }
 
@@ -4937,7 +4967,24 @@ function cycleTactics(){
   showBattleCommands();
 }
 // ===== 初期化 =====
+// 🍖 肉マスを各エリアに配置（道中の床マスから等間隔で選出・初回のみ）
+function placeMeatTiles(){
+  for(let a=0;a<=4;a++){
+    const area=AREAS[a];
+    if(area.map.some(row=>row.includes(11))) continue; // 配置済みならスキップ
+    const floors=[];
+    for(let y=0;y<area.rows;y++) for(let x=0;x<area.cols;x++)
+      if(area.map[y][x]===1 && !(x===area.start.x&&y===area.start.y)) floors.push({x,y});
+    const n=Math.min(3, 2+Math.floor(a/2)); // E1-2: 2箇所 / E3-5: 3箇所
+    for(let i=1;i<=n;i++){
+      const p=floors[Math.floor(floors.length*i/(n+1))];
+      if(p) area.map[p.y][p.x]=11;
+    }
+  }
+}
+
 function init(){
+  placeMeatTiles();
   BDATA.monster_map_arr = Object.values(BDATA.monster_map);
   // 起動時にセーブデータがあれば自動ロード
   const savedRaw = localStorage.getItem(SAVE_KEY);
@@ -4949,6 +4996,7 @@ function init(){
       S._fushigiRound = false;
       const area = AREAS[Math.min(S.areaIdx, AREAS.length-1)];
       S.areaIdx = Math.min(S.areaIdx, 4); // ふしぎなかぎ世界にいた場合は戻す
+      S._currentDungeon = null; S.fushigiWorld = null; // 残留フラグも掃除
       document.getElementById('map-title').textContent = AREAS[S.areaIdx].icon+' '+AREAS[S.areaIdx].name;
       document.getElementById('hdr-area').textContent = AREAS[S.areaIdx].id;
       addLog('📂 前回の冒険を再開！','log-town');
