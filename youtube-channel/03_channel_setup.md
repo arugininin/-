@@ -8,7 +8,7 @@
 ## 説明文(そのまま貼る)
 ```
 A tiny felt cat runs a ramen stall that only opens at night. 🍜🏮
-Every customer is hungry for something. Mugi never says a word — he just cooks.
+Every customer is hungry for something. Mugi never says a word — she just cooks.
 
 New episode every night. No words needed, wherever you are.
 
@@ -32,7 +32,7 @@ Story, characters and scripts are original. Visuals are created with AI tools an
 ```
 Close-up portrait of Mugi: a small needle-felted calico cat (white, orange and black patches), a tiny notch on the left ear,
 round amber eyes, wearing a navy blue apron and a white twisted towel headband, facing camera, calm expression,
-a single red paper lantern glowing behind him, dark blue night background, handmade needle-felted wool texture,
+a single red paper lantern glowing behind her, dark blue night background, handmade needle-felted wool texture,
 macro photo look, centered, square 1:1, no text
 ```
 
@@ -49,7 +49,7 @@ soft bokeh lights, deep blue night, handmade needle-felted wool stop-motion look
 
 | 動画 | 画像プロンプト | 文字 |
 |---|---|---|
-| 長尺① すず編 | `Extreme close-up of a tiny needle-felted pure white kitten with big pale-blue eyes and a small brass bell on a red string collar, wet from rain, looking up at a steaming bowl of ramen held out by a calico cat paw, warm lantern light on the left, cold blue rain on the right, needle-felted stop-motion look, 16:9, no text` | `HE FED HER` |
+| 長尺① すず編 | `Extreme close-up of a tiny needle-felted pure white kitten with big pale-blue eyes and a small brass bell on a red string collar, wet from rain, looking up at a steaming bowl of ramen held out by a calico cat paw, warm lantern light on the left, cold blue rain on the right, needle-felted stop-motion look, 16:9, no text` | `ONE WARM BOWL` |
 | 長尺② くろ編 | `Split composition: left, a needle-felted calico cat in a navy apron under a single warm red lantern; right, a sleek needle-felted black cat in a white chef jacket and tall chef hat under harsh pink neon light; both staring at each other across a wet alley, needle-felted stop-motion look, 16:9, no text` | `THE RIVAL` |
 
 ショートは投稿時に「フレームを選択」で、**客の顔のアップ**か**湯気の立つ丼**のコマを選ぶ。
