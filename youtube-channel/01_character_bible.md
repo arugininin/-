@@ -35,6 +35,9 @@ cozy nostalgic 1960s Japanese back-alley, vertical 9:16, no text, no subtitles, 
 | **こん (Kon)** | `Kon: a small skinny needle-felted fox child, oversized patched yellow raincoat, holding three acorns` | お金のない子ぎつね。どんぐりで払う。泣かせ回担当。 |
 | **くろ (Kuro)** | `Kuro: a sleek needle-felted black cat, sharp green eyes, wearing a white chef jacket with gold buttons and a tall chef hat` | 2週目に登場するライバル。向かいにネオンぎらぎらのキッチンカーを出す。最後は和解。 |
 | **カー (Kaa)** | `Kaa: a scruffy needle-felted crow with one shiny button eye, a red thread tied on one leg` | なるとを盗むカラス。ギャグ回の常連。 |
+| **しろ (Shiro)** | `Shiro: a slender adult needle-felted pure white cat, big pale-blue eyes, a small brass bell on a red string collar identical to Suzu's` | EP14の最後に現れる白い大人の猫。第3章「すずの母編」の中心。 |
+
+補足: すずはEP6以降、外見文の後ろに `, now also wearing a tiny navy apron with one white paw-print mark` を足す。こんは女の子として書く。
 
 ## 1本の基本構成(ショート 24〜40秒)
 1. **0〜2秒 フック**: 感情の落差か「何が起きる?」を絵だけで見せる(泣いている子、空の財布、盗まれるなると)。屋台の全景から始めない。
