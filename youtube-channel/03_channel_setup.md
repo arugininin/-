@@ -7,13 +7,13 @@
 
 ## 説明文(そのまま貼る)
 ```
-A tiny felt cat runs a ramen stall that only opens at night. 🍜🏮
+A tiny cat runs a ramen stall that only opens at night. 🍜🏮
 Every customer is hungry for something. Mugi never says a word — she just cooks.
 
 New episode every night. No words needed, wherever you are.
 
 夜だけ開く、三毛猫「むぎ」の小さな屋台。
-セリフのない、羊毛フェルトのストップモーション風ショートドラマです。毎晩更新。
+セリフのない、猫の屋台のショート動画です。毎晩更新。
 
 Story, characters and scripts are original. Visuals are created with AI tools and edited by hand.
 物語・キャラクター・脚本はオリジナルです。映像はAIツールで制作し、手作業で編集しています。
@@ -24,23 +24,25 @@ Story, characters and scripts are original. Visuals are created with AI tools an
 - 国: 日本 / 言語: 英語をメインに設定し、タイトルと説明は日本語を併記
 - カテゴリ: 映画とアニメ
 - 子ども向け: **「いいえ、子ども向けではありません」**(子ども向けにするとコメント・通知・一部収益機能が止まる。内容は全年齢向けの物語であり、子どもを主対象にしていない)
-- 「改変されたコンテンツ」の申告: フェルト人形の非写実アニメなので必須ではないが、迷ったら「はい」。申告しても収益化と配信は制限されない
-- キーワード: `cat, stop motion, felt, ramen, japanese food, cozy, asmr cooking, short drama, 猫, 屋台, 羊毛フェルト`
+- 「改変されたコンテンツ」の申告: **「はい」にする**(標準の画風は実物に近く見えるため)。申告しても収益化と配信は制限されない
+- キーワード: `cat, cat chef, miniature cooking, ramen, japanese food, cozy, asmr cooking, short drama, 猫, 屋台`
 - 電話番号認証(カスタムサムネと15分超動画に必要)と2段階認証を初日に済ませる
+
+アイコン・バナー・サムネの指示は標準の画風(STYLE A)で書いてある。3日間の比較でフェルト風(STYLE B)が勝った場合は、こちらで書き直す。
 
 ## アイコン(生成プロンプト)
 ```
-Close-up portrait of Mugi: a small needle-felted calico cat (white, orange and black patches), a tiny notch on the left ear,
+Close-up portrait of Mugi: a small calico cat (white, orange and black patches), a tiny notch on the left ear,
 round amber eyes, wearing a navy blue apron and a white twisted towel headband, facing camera, calm expression,
-a single red paper lantern glowing behind her, dark blue night background, handmade needle-felted wool texture,
+a single red paper lantern glowing behind her, dark blue night background, soft detailed fur, slightly oversized expressive eyes, semi-realistic 3D look,
 macro photo look, centered, square 1:1, no text
 ```
 
 ## バナー(2560×1440、中央1546×423に主要素)
 ```
 Wide miniature diorama: a tiny wooden night food stall with one plain red paper lantern and a navy noren curtain with a single white paw mark,
-Mugi the needle-felted calico cat cooking behind the counter with rising steam, three small empty stools, wet cobblestone alley,
-soft bokeh lights, deep blue night, handmade needle-felted wool stop-motion look, cinematic 16:9, generous empty space left and right, no text
+Mugi the calico cat cooking behind the counter with rising steam, three small empty stools, wet cobblestone alley,
+soft bokeh lights, deep blue night, semi-realistic 3D look, miniature set, cinematic 16:9, generous empty space left and right, no text
 ```
 文字入れはCanvaで: `Mugi's Night Stall — new episode every night 🍜`
 
@@ -49,8 +51,8 @@ soft bokeh lights, deep blue night, handmade needle-felted wool stop-motion look
 
 | 動画 | 画像プロンプト | 文字 |
 |---|---|---|
-| 長尺① すず編 | `Extreme close-up of a tiny needle-felted pure white kitten with big pale-blue eyes and a small brass bell on a red string collar, wet from rain, looking up at a steaming bowl of ramen held out by a calico cat paw, warm lantern light on the left, cold blue rain on the right, needle-felted stop-motion look, 16:9, no text` | `ONE WARM BOWL` |
-| 長尺② くろ編 | `Split composition: left, a needle-felted calico cat in a navy apron under a single warm red lantern; right, a sleek needle-felted black cat in a white chef jacket and tall chef hat under harsh pink neon light; both staring at each other across a wet alley, needle-felted stop-motion look, 16:9, no text` | `THE RIVAL` |
+| 長尺① すず編 | `Extreme close-up of a tiny pure white kitten with big pale-blue eyes and a small brass bell on a red string collar, wet from rain, looking up at a steaming bowl of ramen held out by a calico cat paw, warm lantern light on the left, cold blue rain on the right, semi-realistic 3D look, miniature set, 16:9, no text` | `ONE WARM BOWL` |
+| 長尺② くろ編 | `Split composition: left, a calico cat in a navy apron under a single warm red lantern; right, a sleek black cat in a white chef jacket and tall chef hat under harsh pink neon light; both staring at each other across a wet alley, semi-realistic 3D look, miniature set, 16:9, no text` | `THE RIVAL` |
 
 ショートは投稿時に「フレームを選択」で、**客の顔のアップ**か**湯気の立つ丼**のコマを選ぶ。
 

@@ -3,17 +3,30 @@
 全動画でこのファイルの設定を固定する。キャラと世界観の一貫性が「続きが見たい=登録」と「量産AIではない=審査通過」の両方の土台になる。
 
 ## コンセプト(1行)
-羊毛フェルトのストップモーション風ミニチュア世界。雨上がりの昭和の路地裏で、三毛猫の「むぎ」が夜だけ開く小さな屋台。腹を空かせた動物たちが来て、一杯で少しだけ救われる。**セリフなし**(鳴き声・調理音・環境音・音楽のみ)で全世界に届ける。
+ミニチュアの世界。雨上がりの昭和の路地裏で、三毛猫の「むぎ」が夜だけ開く小さな屋台。腹を空かせた動物たちが来て、一杯で少しだけ救われる。**セリフなし**(鳴き声・調理音・環境音・音楽のみ)で全世界に届ける。
 
 ## なぜこの形か
 - 言語不要 → 日本だけでなく全世界のショートフィードに乗る
 - 猫 × 料理ASMR × 日本の夜景、という伸びやすい3要素の掛け合わせ
-- フェルト人形のストップモーション風 → 「実写風AI猫」の量産動画と見た目で明確に区別でき、現実と誤認されない
-- 連続ドラマ+固定キャラ → 人間が書いた脚本であることが明白で、テンプレ量産判定を避けやすい
+- 固定キャラ+人間が書いた脚本 → テンプレ量産判定を避けやすい
+- **各話は単体で完結させる**。前の話を見ていなくても分かること(ショートは文脈なしでフィードから見られる)。続きものの要素は「同じキャラが出る」程度に留める
 
-## 画風(全プロンプト共通の STYLE ブロック)
+## 画風(STYLEブロックは2種類。台本の `[STYLE]` をどちらかに置き換える)
+
+画風は台本側に書かず、このブロックだけで決める。最初の3日間は同じ台本で両方を投稿して数字で決める(`README.md` の「検証結果」参照)。
+
+**STYLE A(標準。実績のある型: かわいいAI猫 × 本物に見えるミニチュア料理)**
 ```
-STYLE: handmade needle-felted wool stop-motion animation, miniature diorama set, visible wool fiber texture,
+STYLE: cute fluffy cat characters with soft detailed fur and slightly oversized expressive eyes, semi-realistic 3D look,
+tiny real-looking miniature kitchen and miniature real food, macro lens, shallow depth of field,
+warm paper-lantern light against cool blue night, wet cobblestone reflections, gentle steam,
+cozy nostalgic 1960s Japanese back-alley, crisp realistic cooking sounds, vertical 9:16,
+no text, no subtitles, no watermark, no humans
+```
+
+**STYLE B(比較用。未実証の差別化案: 羊毛フェルトのストップモーション風)**
+```
+STYLE: handmade wool stop-motion animation, miniature diorama set, visible wool fiber texture,
 tiny handcrafted props, shallow depth of field, macro lens look, warm paper-lantern light against cool blue night,
 wet cobblestone reflections, gentle steam, slightly stuttered stop-motion movement (12fps feel),
 cozy nostalgic 1960s Japanese back-alley, vertical 9:16, no text, no subtitles, no watermark, no humans
@@ -28,14 +41,14 @@ cozy nostalgic 1960s Japanese back-alley, vertical 9:16, no text, no subtitles, 
 
 | 名前 | 外見プロンプト(英語・固定) | 性格/役割 |
 |---|---|---|
-| **むぎ (Mugi)** 主人公 | `Mugi: a small needle-felted calico cat (white, orange and black patches), a tiny notch on the left ear, round amber eyes, wearing a navy blue apron and a white twisted towel headband, stands on hind legs` | 無口な屋台の主人。表情は控えめ、耳としっぽで感情を出す。客の事情を察して黙って一品出す。 |
-| **すず (Suzu)** | `Suzu: a tiny needle-felted pure white kitten, half the size of Mugi, big pale-blue eyes, a small brass bell on a red string collar` | 1話で現れる迷子の子猫。やがて見習いに。失敗担当で視聴者の感情移入先。 |
-| **しばさん (Shiba-san)** | `Shiba-san: a needle-felted shiba inu office worker, loosened red necktie, rumpled white shirt, carrying a worn brown briefcase, tired droopy eyes` | 常連の疲れた会社員。毎回くたびれて来て、食べると尻尾が上がる。 |
-| **げんさん (Gen-san)** | `Gen-san: a plump elderly needle-felted tanuki, straw hat on his back, a green leaf on his head, round belly, rosy cheeks` | 酔いどれ常連。葉っぱで支払おうとする。コメディ担当。 |
-| **こん (Kon)** | `Kon: a small skinny needle-felted fox child, oversized patched yellow raincoat, holding three acorns` | お金のない子ぎつね。どんぐりで払う。泣かせ回担当。 |
-| **くろ (Kuro)** | `Kuro: a sleek needle-felted black cat, sharp green eyes, wearing a white chef jacket with gold buttons and a tall chef hat` | 2週目に登場するライバル。向かいにネオンぎらぎらのキッチンカーを出す。最後は和解。 |
-| **カー (Kaa)** | `Kaa: a scruffy needle-felted crow with one shiny button eye, a red thread tied on one leg` | なるとを盗むカラス。ギャグ回の常連。 |
-| **しろ (Shiro)** | `Shiro: a slender adult needle-felted pure white cat, big pale-blue eyes, a small brass bell on a red string collar identical to Suzu's` | EP14の最後に現れる白い大人の猫。第3章「すずの母編」の中心。 |
+| **むぎ (Mugi)** 主人公 | `Mugi: a small calico cat (white, orange and black patches), a tiny notch on the left ear, round amber eyes, wearing a navy blue apron and a white twisted towel headband, stands on hind legs` | 無口な屋台の主人。表情は控えめ、耳としっぽで感情を出す。客の事情を察して黙って一品出す。 |
+| **すず (Suzu)** | `Suzu: a tiny pure white kitten, half the size of Mugi, big pale-blue eyes, a small brass bell on a red string collar` | 1話で現れる迷子の子猫。やがて見習いに。失敗担当で視聴者の感情移入先。 |
+| **しばさん (Shiba-san)** | `Shiba-san: a shiba inu office worker, loosened red necktie, rumpled white shirt, carrying a worn brown briefcase, tired droopy eyes` | 常連の疲れた会社員。毎回くたびれて来て、食べると尻尾が上がる。 |
+| **げんさん (Gen-san)** | `Gen-san: a plump elderly tanuki, straw hat on his back, a green leaf on his head, round belly, rosy cheeks` | 酔いどれ常連。葉っぱで支払おうとする。コメディ担当。 |
+| **こん (Kon)** | `Kon: a small skinny fox child, oversized patched yellow raincoat, holding three acorns` | お金のない子ぎつね。どんぐりで払う。泣かせ回担当。 |
+| **くろ (Kuro)** | `Kuro: a sleek black cat, sharp green eyes, wearing a white chef jacket with gold buttons and a tall chef hat` | 2週目に登場するライバル。向かいにネオンぎらぎらのキッチンカーを出す。最後は和解。 |
+| **カー (Kaa)** | `Kaa: a scruffy crow with one shiny button eye, a red thread tied on one leg` | なるとを盗むカラス。ギャグ回の常連。 |
+| **しろ (Shiro)** | `Shiro: a slender adult pure white cat, big pale-blue eyes, a small brass bell on a red string collar identical to Suzu's` | EP14の最後に現れる白い大人の猫。第3章「すずの母編」の中心。 |
 
 補足: すずはEP6以降、外見文の後ろに `, now also wearing a tiny navy apron with one white paw-print mark` を足す。こんは女の子として書く。
 
@@ -54,4 +67,4 @@ cozy nostalgic 1960s Japanese back-alley, vertical 9:16, no text, no subtitles, 
 - 実在作品・実在キャラ・既存スタジオ名を画風指定に使わない
 - 動物がひどく傷つく、虐待される描写(「不快・苦痛を与える内容」は収益化対象外)
 - 同じ構図・同じ展開の使い回し(テンプレ反復判定の原因)
-- 実写と誤認されるリアル調
+- 動物を危険な目に遭わせて救出する演出
